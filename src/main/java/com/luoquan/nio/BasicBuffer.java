@@ -1,6 +1,5 @@
 package com.luoquan.nio;
 
-import java.nio.Buffer;
 import java.nio.IntBuffer;
 
 /**
