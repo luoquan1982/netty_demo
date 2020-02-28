@@ -18,6 +18,12 @@ import java.util.Arrays;
  * @date 2020/2/27 19:00
  */
 public class ScatteringAndGatheringTest {
+    /**
+     * 消除47行的while警告
+     * @param args
+     * @throws IOException
+     */
+    @SuppressWarnings("InfiniteLoopStatement")
     public static void main(String[] args) throws IOException {
         //这次使用ServerSocketChannel和SocketChannel网络
         ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
