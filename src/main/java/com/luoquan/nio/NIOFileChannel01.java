@@ -11,7 +11,7 @@ import java.nio.channels.FileChannel;
  * @author LuoQuan
  * @date 2020/2/27 12:05
  */
-public class NIOFileChanel01 {
+public class NIOFileChannel01 {
     public static void main(String[] args) throws IOException {
         String str = "netty学习真开心啊";
         //创建一个输出流
