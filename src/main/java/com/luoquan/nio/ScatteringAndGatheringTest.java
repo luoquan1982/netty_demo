@@ -1,5 +1,7 @@
 package com.luoquan.nio;
 
+import sun.nio.ch.Util;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.Buffer;
@@ -68,7 +70,7 @@ public class ScatteringAndGatheringTest {
             }
             //将所有的buffer进行clear操作
             Arrays.stream(byteBuffers).forEach(Buffer::clear);
-            System.out.println("byteRead=" + byteRead + ",byteWrite=" + byteWrite + ",messageLenght=" + messageLength);
+            System.out.println("byteRead=" + byteRead + ",byteWrite=" + byteWrite + ",messageLength=" + messageLength);
         }
     }
 }
