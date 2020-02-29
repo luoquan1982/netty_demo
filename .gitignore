@@ -32,3 +32,4 @@ dependency-reduced-pom.xml
 *.iws
 *.idea
 test/
+*.mp4
