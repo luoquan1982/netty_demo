@@ -42,7 +42,7 @@ public class GroupChatServer {
         try {
             //循环处理
             while (true) {
-                int count = selector.select(2000);
+                int count = selector.select();
                 if (count > 0) {
                     //有事件处理
                     //遍历selectionKey集合
@@ -53,6 +53,7 @@ public class GroupChatServer {
                         //监听到accept
                         if (key.isAcceptable()) {
                             SocketChannel sc = listenChannel.accept();
+                            sc.configureBlocking(false);
                             //将该sc注册到selector上
                             sc.register(selector, SelectionKey.OP_READ);
                             //提示上线
@@ -135,6 +136,8 @@ public class GroupChatServer {
     }
 
     public static void main(String[] args) {
-        //
+        //创建服务器对象
+        GroupChatServer groupChatServer = new GroupChatServer();
+        groupChatServer.listen();
     }
 }
