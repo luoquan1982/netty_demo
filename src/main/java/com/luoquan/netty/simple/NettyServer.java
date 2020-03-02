@@ -1,10 +1,7 @@
 package com.luoquan.netty.simple;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -41,6 +38,9 @@ public class NettyServer {
                         //给pipeline设置处理器
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
+                            //可以使用一个集合管理SocketChannel,在推送消息时,可以将业务加入到
+                            // 各个channel对应的NIOEventLoop的taskQueue或者scheduleTaskQueue
+                            System.out.println("客户socketChannel hashcode= " + ch.hashCode());
                             ch.pipeline().addLast(new NettyServerHandler());    //给管道添加一个处理器
                         }
                     });//给我们的workerGroup的EventLoop对应的管道设置处理器
@@ -50,6 +50,18 @@ public class NettyServer {
             //绑定一个端口并且同步,生成了一个ChannelFuture对象
             //启动服务器(并绑定端口)
             ChannelFuture channelFuture = bootstrap.bind(6668).sync();
+
+            //给channelFuture注册监听器,监控我们关心的事件
+            channelFuture.addListener(new ChannelFutureListener() {
+                @Override
+                public void operationComplete(ChannelFuture future) throws Exception {
+                    if(channelFuture.isSuccess()){
+                        System.out.println("监听端口6668成功");
+                    }else{
+                        System.out.println("监听端口失败");
+                    }
+                }
+            });
 
             //对关闭通道进行监听
             channelFuture.channel().closeFuture().sync();
