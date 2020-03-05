@@ -4,6 +4,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 /**
  * 处理业务的handler
@@ -30,6 +31,16 @@ public class MyServerHandler extends SimpleChannelInboundHandler<MessageProtocol
         System.out.println("内容:" + new String(content,StandardCharsets.UTF_8));
 
         System.out.println("服务器接收到消息包数量:" + (++this.count));
+
+        //回复消息
+        String responseContent = UUID.randomUUID().toString();
+        int responseLen = responseContent.getBytes(StandardCharsets.UTF_8).length;
+        //构建一个协议包
+        MessageProtocol messageProtocol = new MessageProtocol();
+        messageProtocol.setLen(responseLen);
+        messageProtocol.setContent(responseContent.getBytes(StandardCharsets.UTF_8));
+
+        ctx.writeAndFlush(messageProtocol);
     }
 
     @Override
